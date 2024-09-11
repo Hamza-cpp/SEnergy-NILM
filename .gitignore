@@ -1,0 +1,16 @@
+.vscode/
+.venv/
+.venv_py310/
+.history/
+.streamlit/
+**/__pycache__/
+**/*.py.bak
+microwave_out/
+outputs/
+logs/
+models/
+
+.env
+environment.yml
+micro.py
+
