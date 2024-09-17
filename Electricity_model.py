@@ -4,7 +4,7 @@ import copy
 import torch
 from torch import nn
 
-from src.model.model_helpers import LayerNorm, PositionalEmbedding, TransformerBlock
+from model_helpers import LayerNorm, PositionalEmbedding, TransformerBlock
 
 
 class TransformerModel(nn.Module):
