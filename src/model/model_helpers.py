@@ -71,8 +71,8 @@ class MultiHeadedAttention(nn.Module):
         batch_size = query.size(0)
 
         query, key, value = [
-            l(x).view(batch_size, -1, self.h, self.d_k).transpose(1, 2)
-            for l, x in zip(self.linear_layers, (query, key, value))
+            layer(x).view(batch_size, -1, self.h, self.d_k).transpose(1, 2)
+            for layer, x in zip(self.linear_layers, (query, key, value))
         ]
 
         x, attn = self.attention(query, key, value, mask=mask, dropout=self.dropout)

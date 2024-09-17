@@ -7,8 +7,8 @@ import streamlit as st
 import plotly.express as px
 from dotenv import load_dotenv
 
-from db import PostgreSQLDatabase
-from electricity_predict import ElectricityPredictor
+from src.db import PostgreSQLDatabase
+from src.electricity_predict import ElectricityPredictor
 
 
 # Load environment variables from .env file
