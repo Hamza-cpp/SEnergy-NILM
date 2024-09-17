@@ -58,19 +58,37 @@ class TransformerModel(nn.Module):
 
         self.truncated_normal_init()
 
-    def truncated_normal_init(self, mean=0, std=0.02, lower=-0.04, upper=0.04):
-        params = list(self.named_parameters())
-        for n, p in params:
-            if "layer_norm" in n:
+    def _truncated_normal_init(
+        self,
+        mean: float = 0.0,
+        std: float = 0.02,
+        lower: float = -0.04,
+        upper: float = 0.04,
+    ) -> None:
+        """
+        Initialize model parameters with a truncated normal distribution.
+
+        Args:
+            mean (float, optional): Mean of the normal distribution. Defaults to 0.0.
+            std (float, optional): Standard deviation of the normal distribution. Defaults to 0.02.
+            lower (float, optional): Lower bound of the truncated normal distribution. Defaults to -0.04.
+            upper (float, optional): Upper bound of the truncated normal distribution. Defaults to 0.04.
+        """
+        for name, param in self.named_parameters():
+            if "layer_norm" in name:
                 continue
             else:
                 with torch.no_grad():
-                    l = (1.0 + math.erf(((lower - mean) / std) / math.sqrt(2.0))) / 2.0
-                    u = (1.0 + math.erf(((upper - mean) / std) / math.sqrt(2.0))) / 2.0
-                    p.uniform_(2 * l - 1, 2 * u - 1)
-                    p.erfinv_()
-                    p.mul_(std * math.sqrt(2.0))
-                    p.add_(mean)
+                    lower_bound = (
+                        1.0 + math.erf(((lower - mean) / std) / math.sqrt(2.0))
+                    ) / 2.0
+                    upper_bound = (
+                        1.0 + math.erf(((upper - mean) / std) / math.sqrt(2.0))
+                    ) / 2.0
+                    param.uniform_(2 * lower_bound - 1, 2 * upper_bound - 1)
+                    param.erfinv_()
+                    param.mul_(std * math.sqrt(2.0))
+                    param.add_(mean)
 
     def forward(self, sequence):
         x_token = self.pool(self.conv(sequence)).permute(0, 2, 1)
