@@ -1,16 +1,14 @@
-import streamlit as st
-import pandas as pd
-import numpy as np
+import os
 import time
+import numpy as np
+import pandas as pd
 import pickle as pk
+import streamlit as st
+import plotly.express as px
 from dotenv import load_dotenv
 
-import plotly.express as px
-import os
 from db import PostgreSQLDatabase
-
-from Electricity_model import *
-from electricity_predict import *
+from electricity_predict import ElectricityPredictor
 
 
 # Load environment variables from .env file
@@ -66,7 +64,7 @@ for app in os.listdir(MODELS_FOLDER):
         ]
     )
 
-model = ELECTRIcity(model_paths, appliances, args)
+model = ElectricityPredictor(model_paths, appliances, args)
 
 
 chart_data = pd.DataFrame(

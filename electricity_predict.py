@@ -1,14 +1,9 @@
 import torch
-import pickle
-import copy
 import numpy as np
 import pandas as pd
-import os
-
-# from .Electricity_model import *
 
 
-class ELECTRIcity:
+class ElectricityPredictor:
 
     def __init__(self, model_paths, appliances, args):
         self.appliances = appliances
