@@ -18,7 +18,7 @@ load_dotenv()
 
 
 st.set_page_config(
-    page_title="SEnergyM",
+    page_title="SEnergy-NILM",
     page_icon="🧊",
     layout="wide",
 )
