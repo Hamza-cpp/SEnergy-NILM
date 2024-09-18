@@ -12,5 +12,4 @@ models/
 
 .env
 environment.yml
-micro.py
 
