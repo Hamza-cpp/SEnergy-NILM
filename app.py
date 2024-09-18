@@ -64,6 +64,10 @@ for app in os.listdir(MODELS_FOLDER):
         ]
     )
 
+print("Model Paths:", model_paths)
+print("Appliances:", appliances)
+print("Args:", args)
+
 model = ElectricityPredictor(model_paths, appliances, args)
 
 
@@ -82,7 +86,7 @@ def get_data():
     global chart_data
 
     seq = (np.array(client1.get_data(row=480, table="ts_kv")) * 1000).tolist()[::-1]
-    print(seq)
+    # print(seq)
 
     new_data = pd.DataFrame(
         {
