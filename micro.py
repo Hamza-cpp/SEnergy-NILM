@@ -9,7 +9,7 @@ from src.db import PostgreSQLDatabase
 from src.model.model import ModelOnlyRegression
 
 load_dotenv()
-sequence_length =128
+sequence_length = 128
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Database client
@@ -29,12 +29,12 @@ real_world_data = (np.array(client1.get_data(row=480, table="ts_kv")) * 1000).to
 ]
 
 client1.close()
-
+# print("=============> Real-world data DDDBBBBBBBB:", real_world_data)
 # Convert to numpy array if it's not already
 real_world_data = np.array(real_world_data)
 # real_world_data = np.array(real_world_data, dtype=np.float64) * 1000
 
-print("=============> Real-world data:", real_world_data[sequence_length:])
+print("=============> Real-world data:", real_world_data)
 
 
 def save_model(model, optimizer, hparams, appliance, transform, file_name_model, error):
@@ -114,21 +114,22 @@ print("inputs: ", inputs)
 
 # Run inference
 with torch.no_grad():
-    combined_output, regression_output, attention_weights, classification_output = model(inputs)
+    combined_output, regression_output, attention_weights, classification_output = (
+        model(inputs)
+    )
     print("combined_output: ", combined_output)
 
 # Get predictions
 predictions = combined_output.cpu().numpy()
 print("=============================== Predictions ===============================")
 print("predictions: ", predictions)
+print("Shape of predictions: ", predictions.shape)
 print("==========================================================================")
 
 
-
-
 plt.figure(figsize=(12, 6))
-plt.plot(real_world_data[sequence_length:], label='Original')
-plt.plot(predictions[:, -1], label='Predicted')
+plt.plot(real_world_data[sequence_length:], label="Original")
+plt.plot(predictions[:, -1], label="Predicted")  #  (353, 128)
 plt.legend()
-plt.title('Original vs Predicted Power Consumption')
+plt.title("Original vs Predicted Power Consumption")
 plt.show()
